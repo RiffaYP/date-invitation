@@ -1,0 +1,664 @@
+/* ==========================================
+   Pixel Date Invitation - Retro SPA Stylesheet
+   ========================================== */
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Background */
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: "Press Start 2P", monospace, cursive;
+    background: linear-gradient(180deg, #fff0f6 0%, #ffc0db 50%, #ffa3ca 100%);
+    position: relative;
+}
+
+.bg-decorations {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+/* Pixel Clouds */
+.pixel-cloud {
+    position: absolute;
+    width: 110px;
+    height: 34px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 12px;
+    box-shadow:
+        4px 4px 0px rgba(255, 105, 180, 0.2),
+        inset -3px -3px 0px #ffd0e5;
+    border: 3px solid #ffffff;
+}
+
+.pixel-cloud::before,
+.pixel-cloud::after {
+    content: '';
+    position: absolute;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+}
+
+.pixel-cloud::before {
+    width: 44px;
+    height: 44px;
+    top: -18px;
+    left: 18px;
+}
+
+.pixel-cloud::after {
+    width: 36px;
+    height: 36px;
+    top: -12px;
+    left: 50px;
+}
+
+.cloud-1 {
+    top: 12%;
+    animation: floatCloud 24s linear infinite;
+}
+
+.cloud-2 {
+    top: 32%;
+    animation: floatCloud 34s linear infinite;
+    animation-delay: -12s;
+}
+
+.cloud-3 {
+    top: 68%;
+    animation: floatCloud 28s linear infinite;
+    animation-delay: -6s;
+}
+
+/* Floating Pixel Hearts */
+.pixel-heart {
+    position: absolute;
+    bottom: -40px;
+    font-size: 22px;
+    user-select: none;
+    animation: floatHeart 12s linear infinite;
+    filter: drop-shadow(0 2px 4px rgba(255, 60, 120, 0.25));
+}
+
+.heart-1 {
+    left: 10%;
+    animation-duration: 10s;
+    animation-delay: 0s;
+}
+
+.heart-2 {
+    left: 28%;
+    animation-duration: 14s;
+    animation-delay: 3s;
+    font-size: 18px;
+}
+
+.heart-3 {
+    left: 55%;
+    animation-duration: 11s;
+    animation-delay: 1s;
+}
+
+.heart-4 {
+    left: 78%;
+    animation-duration: 15s;
+    animation-delay: 5s;
+    font-size: 24px;
+}
+
+.heart-5 {
+    left: 92%;
+    animation-duration: 13s;
+    animation-delay: 2s;
+    font-size: 20px;
+}
+
+/* Twinkling Sparkles */
+.sparkle {
+    position: absolute;
+    font-size: 18px;
+    user-select: none;
+    animation: twinkle 3s ease-in-out infinite alternate;
+}
+
+.sparkle-1 {
+    top: 15%;
+    left: 15%;
+    animation-delay: 0s;
+}
+
+.sparkle-2 {
+    top: 22%;
+    right: 18%;
+    animation-delay: 1s;
+}
+
+.sparkle-3 {
+    bottom: 25%;
+    left: 12%;
+    animation-delay: 1.8s;
+}
+
+.sparkle-4 {
+    bottom: 18%;
+    right: 22%;
+    animation-delay: 0.5s;
+}
+
+/* SPA Container & Page Sections */
+.container {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    max-width: 520px;
+}
+
+.page-section {
+    display: none;
+    width: 100%;
+    opacity: 0;
+}
+
+.page-section.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+}
+
+/* Card */
+.card {
+    background: #ffffff;
+    width: 100%;
+    padding: 45px 35px;
+    border: 6px solid #ff4f96;
+    border-radius: 20px;
+    box-shadow:
+        8px 8px 0px #ff2a7e,
+        16px 16px 0px rgba(180, 40, 90, 0.15);
+    text-align: center;
+    position: relative;
+    animation:
+        pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
+        floatCard 4s ease-in-out infinite 0.6s;
+}
+
+.success-card {
+    border-color: #ff3b8d;
+    box-shadow:
+        8px 8px 0px #e61f72,
+        16px 16px 0px rgba(230, 31, 114, 0.18);
+}
+
+/* Character */
+.cat {
+    font-size: 72px;
+    margin-bottom: 20px;
+    display: inline-block;
+    user-select: none;
+    animation: catIdle 2.5s ease-in-out infinite;
+    transform-origin: center bottom;
+    filter: drop-shadow(0 6px 4px rgba(255, 79, 150, 0.2));
+}
+
+.happy-cat {
+    animation: catHeartBounce 1.8s ease-in-out infinite;
+}
+
+/* Typography */
+h1 {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #ff2a7e;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 0px #ffd2e5;
+    word-break: break-word;
+}
+
+.success-title {
+    font-size: 24px;
+    color: #ff1a75;
+    text-shadow: 3px 3px 0px #ffb3d1, 5px 5px 0px #ff66a3;
+    margin-bottom: 18px;
+    animation: pulseTitle 2s ease-in-out infinite alternate;
+}
+
+.success-subtitle {
+    font-size: 12px;
+    line-height: 1.8;
+    color: #ff3b8d;
+    margin-bottom: 20px;
+    word-break: break-word;
+}
+
+.success-description {
+    font-size: 11px;
+    line-height: 1.8;
+    color: #884e6b;
+    margin-bottom: 28px;
+    word-break: break-word;
+}
+
+#message {
+    margin-top: 25px;
+    font-size: 11px;
+    line-height: 1.6;
+    color: #884e6b;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Buttons */
+.buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+    position: relative;
+    min-height: 70px;
+}
+
+.buttons.single-button {
+    gap: 0;
+    min-height: auto;
+}
+
+button {
+    font-family: "Press Start 2P", monospace;
+    font-size: 14px;
+    padding: 16px 28px;
+    border: 3px solid #ff1f73;
+    cursor: pointer;
+    border-radius: 12px;
+    user-select: none;
+    outline: none;
+}
+
+#yesBtn,
+.primary-btn {
+    background: #ff4f96;
+    color: #ffffff;
+    box-shadow: 0px 5px 0px #c71b61;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.15s ease, background-color 0.2s ease;
+    z-index: 5;
+}
+
+#yesBtn {
+    transform: scale(var(--yes-scale, 1));
+}
+
+#yesBtn:hover,
+.primary-btn:hover {
+    background: #ff3385;
+    transform: scale(var(--yes-scale, 1)) translateY(-4px);
+    box-shadow: 0px 9px 0px #c71b61;
+}
+
+.primary-btn:hover {
+    transform: translateY(-4px);
+}
+
+#yesBtn:active,
+.primary-btn:active {
+    transform: scale(var(--yes-scale, 1)) translateY(2px);
+    box-shadow: 0px 3px 0px #c71b61;
+}
+
+.primary-btn:active {
+    transform: translateY(2px);
+}
+
+#noBtn {
+    background: #ffffff;
+    border: 3px solid #ff4f96;
+    color: #ff4f96;
+    box-shadow: 0px 5px 0px #ffb3d1;
+    position: relative;
+    transition: transform 0.35s cubic-bezier(0.25, 0.8, 0.25, 1),
+        box-shadow 0.15s ease;
+    z-index: 10;
+}
+
+#noBtn:hover {
+    box-shadow: 0px 7px 0px #ffb3d1;
+}
+
+/* Particle Container */
+.particle-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 999;
+    overflow: hidden;
+}
+
+.heart-particle {
+    position: fixed;
+    user-select: none;
+    pointer-events: none;
+    z-index: 1000;
+    font-size: 18px;
+    animation: heartFloat 1.2s ease-out forwards;
+}
+
+/* Helper Animation Classes */
+.fade-in-anim {
+    animation: fadeIn 0.5s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+.fade-out-anim {
+    animation: fadeOut 0.5s ease forwards;
+}
+
+.card-zoom-anim {
+    animation: scale 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.btn-click-anim {
+    animation: buttonClick 0.25s ease forwards;
+}
+
+.shake-anim {
+    animation: shakeNo 0.3s ease-in-out forwards;
+}
+
+.pop-anim {
+    animation: pop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Explicit Animation Keyframes */
+
+/* 1. fadeIn */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(12px) scale(0.96);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* 2. fadeOut */
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.06);
+    }
+}
+
+/* 3. pop */
+@keyframes pop {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* 4. buttonClick */
+@keyframes buttonClick {
+    0% {
+        transform: scale(var(--yes-scale, 1));
+    }
+
+    50% {
+        transform: scale(calc(var(--yes-scale, 1) * 0.86));
+    }
+
+    100% {
+        transform: scale(var(--yes-scale, 1));
+    }
+}
+
+/* 5. heartFloat */
+@keyframes heartFloat {
+    0% {
+        transform: translateY(0) translateX(0) scale(0.6) rotate(0deg);
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateY(-55px) translateX(var(--sway, 16px)) scale(1.15) rotate(15deg);
+    }
+
+    100% {
+        transform: translateY(-120px) translateX(calc(var(--sway, 16px) * -1)) scale(0.4) rotate(-15deg);
+        opacity: 0;
+    }
+}
+
+/* 6. scale */
+@keyframes scale {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        transform: scale(1.04);
+    }
+}
+
+/* 7. shakeNo */
+@keyframes shakeNo {
+
+    0%,
+    100% {
+        transform: translate(var(--no-x, 0px), var(--no-y, 0px)) rotate(0deg);
+    }
+
+    20% {
+        transform: translate(calc(var(--no-x, 0px) - 5px), var(--no-y, 0px)) rotate(-4deg);
+    }
+
+    40% {
+        transform: translate(calc(var(--no-x, 0px) + 5px), var(--no-y, 0px)) rotate(4deg);
+    }
+
+    60% {
+        transform: translate(calc(var(--no-x, 0px) - 3px), var(--no-y, 0px)) rotate(-2deg);
+    }
+
+    80% {
+        transform: translate(calc(var(--no-x, 0px) + 3px), var(--no-y, 0px)) rotate(2deg);
+    }
+}
+
+/* Background & Character Idle Keyframes */
+@keyframes floatCard {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes catIdle {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(-3deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(3deg);
+    }
+}
+
+@keyframes catHeartBounce {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1) rotate(0deg);
+    }
+
+    25% {
+        transform: translateY(-14px) scale(1.1) rotate(-5deg);
+    }
+
+    50% {
+        transform: translateY(-4px) scale(0.98) rotate(3deg);
+    }
+
+    75% {
+        transform: translateY(-8px) scale(1.04) rotate(-2deg);
+    }
+}
+
+@keyframes pulseTitle {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.06);
+    }
+}
+
+@keyframes floatCloud {
+    0% {
+        transform: translateX(-150px);
+    }
+
+    100% {
+        transform: translateX(calc(100vw + 150px));
+    }
+}
+
+@keyframes floatHeart {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.8;
+    }
+
+    90% {
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translateY(-105vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes twinkle {
+    0% {
+        transform: scale(0.6) rotate(0deg);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: scale(1.2) rotate(15deg);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0.6) rotate(-15deg);
+        opacity: 0.3;
+    }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .card {
+        padding: 32px 20px;
+        border-width: 5px;
+        box-shadow: 6px 6px 0px #ff2a7e, 12px 12px 0px rgba(180, 40, 90, 0.15);
+    }
+
+    .cat {
+        font-size: 56px;
+        margin-bottom: 15px;
+    }
+
+    h1 {
+        font-size: 13px;
+        line-height: 1.7;
+        margin-bottom: 25px;
+    }
+
+    .success-title {
+        font-size: 20px;
+        margin-bottom: 14px;
+    }
+
+    .success-subtitle {
+        font-size: 10px;
+        margin-bottom: 18px;
+    }
+
+    .success-description {
+        font-size: 10px;
+        margin-bottom: 24px;
+    }
+
+    button {
+        font-size: 12px;
+        padding: 14px 22px;
+    }
+
+    .buttons {
+        gap: 16px;
+    }
+
+    #message {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 380px) {
+    h1 {
+        font-size: 11px;
+    }
+
+    .success-title {
+        font-size: 18px;
+    }
+
+    button {
+        font-size: 10px;
+        padding: 12px 16px;
+    }
+}

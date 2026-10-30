@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Go Out With Me?</title>
+
+    <!-- Pixel Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Background Decorations -->
+    <div class="bg-decorations" aria-hidden="true">
+        <!-- Floating Pixel Clouds -->
+        <div class="pixel-cloud cloud-1"></div>
+        <div class="pixel-cloud cloud-2"></div>
+        <div class="pixel-cloud cloud-3"></div>
+
+        <!-- Rising Pixel Hearts -->
+        <div class="pixel-heart heart-1">💖</div>
+        <div class="pixel-heart heart-2">💗</div>
+        <div class="pixel-heart heart-3">❤️</div>
+        <div class="pixel-heart heart-4">💕</div>
+        <div class="pixel-heart heart-5">💖</div>
+
+        <!-- Twinkling Sparkles -->
+        <div class="sparkle sparkle-1">✨</div>
+        <div class="sparkle sparkle-2">✨</div>
+        <div class="sparkle sparkle-3">✨</div>
+        <div class="sparkle sparkle-4">✨</div>
+    </div>
+
+    <!-- Particle Overlay Container -->
+    <div id="particle-container" class="particle-container" aria-hidden="true"></div>
+
+    <main class="container">
+        <!-- PAGE HOME -->
+        <section id="page-home" class="page-section active">
+            <div class="card">
+                <div class="cat">🐱</div>
+
+                <h1>Will you go out with me?</h1>
+
+                <div class="buttons">
+                    <button id="yesBtn">YES</button>
+                    <button id="noBtn" tabindex="0">NO</button>
+                </div>
+
+                <p id="message">Try clicking NO 😏</p>
+            </div>
+        </section>
+
+        <!-- PAGE SUCCESS -->
+        <section id="page-success" class="page-section">
+            <div class="card success-card">
+                <div class="cat happy-cat">🐱</div>
+
+                <h1 class="success-title">YAY!!</h1>
+
+                <p class="success-subtitle">I'm so happy you said YES ❤️</p>
+
+                <p class="success-description">
+                    Terima kasih sudah memilih YES.<br>
+                    Aku sudah menyiapkan kejutan kecil untukmu.
+                </p>
+
+                <div class="buttons single-button">
+                    <button id="continueBtn" class="primary-btn">Continue</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
