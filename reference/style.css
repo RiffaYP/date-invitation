@@ -1,0 +1,1352 @@
+/* ==========================================
+   RESET & SYSTEM DESIGN TOKENS
+   ========================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg-gradient: linear-gradient(135deg, #ffe5ec 0%, #ffd6e0 50%, #ffccd5 100%);
+    --primary-color: #ff4d6d;
+    --primary-light: #ff758f;
+    --primary-dark: #c9184a;
+    --accent-color: #ffd166;
+    /* Warm Gold */
+    --text-main: #5c3d4c;
+    --text-muted: #8c6a7c;
+    --font-heading: 'Outfit', sans-serif;
+    --font-handwritten: 'Sacramento', cursive;
+    --card-bg: rgba(255, 255, 255, 0.88);
+    --card-border: rgba(255, 255, 255, 0.5);
+    --shadow-soft: 0 10px 30px rgba(122, 64, 96, 0.08);
+    --shadow-medium: 0 20px 45px rgba(122, 64, 96, 0.15);
+}
+
+body {
+    font-family: var(--font-heading);
+    background: var(--bg-gradient);
+    background-size: 200% 200%;
+    animation: gradientBG 15s ease infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    height: 100dvh;
+    /* Kunci mencegah halaman melorot/scroll di browser HP */
+    overflow: hidden;
+    color: var(--text-main);
+    perspective: 1000px;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* ==========================================
+   APP CONTAINER
+   ========================================== */
+.app-container {
+    width: 100%;
+    max-width: 850px;
+    /* Lebar ditambah agar polaroid bisa bergeser ke samping luar di desktop */
+    height: 100vh;
+    height: 100dvh;
+    /* Memperbaiki bug tinggi layar iOS Safari/HP Chrome agar tidak terpotong */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 20px;
+    z-index: 10;
+}
+
+/* Sparkles Container */
+.particles-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+    overflow: hidden;
+}
+
+/* Sparkle element styles */
+.sparkle {
+    position: absolute;
+    background: radial-gradient(circle, #fff 20%, var(--accent-color) 70%, transparent 100%);
+    border-radius: 50%;
+    pointer-events: none;
+    box-shadow: 0 0 10px var(--accent-color);
+    animation: particleExplode var(--dur) cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+
+.petal-particle {
+    position: absolute;
+    background: linear-gradient(135deg, #ffb3c1, #ff8fa3);
+    border-radius: 50% 0 50% 50%;
+    pointer-events: none;
+    opacity: 0.8;
+    animation: particleExplode var(--dur) cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes particleExplode {
+    0% {
+        transform: translate(0, 0) rotate(0deg) scale(1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: translate(var(--tx), var(--ty)) rotate(var(--rot)) scale(var(--end-scale));
+        opacity: 0;
+    }
+}
+
+/* Prompt Text */
+.prompt-text {
+    font-size: 1.8rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 50px;
+    color: var(--text-main);
+    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.5);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.prompt-text.fade-out {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+/* ==========================================
+   GIFT BOX STYLING
+   ========================================== */
+.gift-container {
+    position: relative;
+    width: 160px;
+    height: 150px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-bottom: 60px;
+    transition: transform 0.5s ease;
+}
+
+/* Idle animation for gift container */
+.gift-container:not(.open) {
+    animation: wobble 3.5s ease-in-out infinite;
+}
+
+.gift-container:not(.open):hover {
+    animation: shake 0.5s ease-in-out infinite;
+}
+
+.gift-box {
+    position: relative;
+    width: 150px;
+    height: 120px;
+}
+
+/* Box Body */
+.box-body {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-color);
+    border-radius: 0 0 16px 16px;
+    box-shadow: inset 0 -10px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 1s ease, opacity 0.8s ease;
+}
+
+/* Vertical & Horizontal Ribbon */
+.box-ribbon-v,
+.box-ribbon-h {
+    position: absolute;
+    background-color: var(--accent-color);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.box-ribbon-v {
+    top: 0;
+    left: 50%;
+    width: 30px;
+    height: 100%;
+    transform: translateX(-50%);
+}
+
+.box-ribbon-h {
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 25px;
+    transform: translateY(-50%);
+}
+
+/* Box Lid */
+.lid {
+    position: absolute;
+    top: -24px;
+    left: -5px;
+    width: 160px;
+    height: 30px;
+    background-color: var(--primary-light);
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12), inset 0 -3px 6px rgba(0, 0, 0, 0.08);
+    z-index: 2;
+    transition: transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.8s ease;
+}
+
+.lid-ribbon {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 32px;
+    height: 100%;
+    background-color: var(--accent-color);
+    transform: translateX(-50%);
+}
+
+/* Ribbon Bow */
+.bow {
+    position: absolute;
+    top: -46px;
+    left: 50%;
+    width: 90px;
+    height: 30px;
+    transform: translateX(-50%);
+    z-index: 3;
+    transition: transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.8s ease;
+}
+
+.bow-left,
+.bow-right {
+    position: absolute;
+    top: 0;
+    width: 45px;
+    height: 30px;
+    border: 6px solid var(--accent-color);
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.bow-left {
+    left: 4px;
+    transform: rotate(-25deg);
+    transform-origin: right bottom;
+}
+
+.bow-right {
+    right: 4px;
+    transform: rotate(25deg);
+    transform-origin: left bottom;
+}
+
+.bow-center {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    background-color: var(--accent-color);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* Shadow underneath the box */
+.gift-shadow {
+    position: absolute;
+    bottom: -15px;
+    left: 5%;
+    width: 90%;
+    height: 15px;
+    background: rgba(122, 64, 96, 0.15);
+    border-radius: 50%;
+    filter: blur(4px);
+    z-index: 1;
+    transition: transform 1s ease, opacity 0.8s ease;
+}
+
+/* Open State animations */
+.gift-container.open .lid {
+    transform: translateY(-220px) rotate(45deg) scale(0.8);
+    opacity: 0;
+}
+
+.gift-container.open .bow {
+    transform: translate(-50%, -250px) rotate(-60deg) scale(0.5);
+    opacity: 0;
+}
+
+.gift-container.open .box-body {
+    transform: translateY(60px) scale(0.4);
+    opacity: 0;
+}
+
+.gift-container.open .gift-shadow {
+    transform: scale(0.2);
+    opacity: 0;
+}
+
+/* Wobble & Shake Keyframes */
+@keyframes wobble {
+
+    0%,
+    100% {
+        transform: scale(1) rotate(0);
+    }
+
+    20% {
+        transform: scale(1.02) rotate(-3deg);
+    }
+
+    40% {
+        transform: scale(0.98) rotate(3deg);
+    }
+
+    60% {
+        transform: scale(1.02) rotate(-2deg);
+    }
+
+    80% {
+        transform: scale(0.99) rotate(2deg);
+    }
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: rotate(0) scale(1.05);
+    }
+
+    20%,
+    60% {
+        transform: rotate(-5deg) scale(1.05);
+    }
+
+    40%,
+    80% {
+        transform: rotate(5deg) scale(1.05);
+    }
+}
+
+/* ==========================================
+   TULIP FLOWER SVG & ANIMATION
+   ========================================== */
+.flower-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.6);
+    width: 200px;
+    height: 300px;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 4;
+    transition: opacity 0.8s ease, transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.flower-container.grow {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -60%) scale(1.2);
+}
+
+/* Stem Growth */
+.stem {
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+    transition: stroke-dashoffset 2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.flower-container.grow .stem {
+    stroke-dashoffset: 0;
+}
+
+/* Leaf growth */
+.leaf {
+    transform: scale(0);
+    opacity: 0;
+    transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.8s ease;
+}
+
+.leaf-left {
+    transform-origin: 102px 220px;
+}
+
+.leaf-right {
+    transform-origin: 101px 190px;
+}
+
+.flower-container.grow .leaf-left {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+    transition-delay: 0.9s;
+}
+
+.flower-container.grow .leaf-right {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+    transition-delay: 1.3s;
+}
+
+/* Flower Head (Bud) scale up */
+.flower-head {
+    transform: translate(100px, 120px) scale(0);
+    transform-origin: 0px 0px;
+    /* matches the base center */
+    transition: transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.flower-container.grow .flower-head {
+    transform: translate(100px, 120px) scale(1);
+    transition-delay: 1.8s;
+}
+
+/* Petal bloom animations */
+.petal {
+    transition: transform 2.2s cubic-bezier(0.25, 1, 0.5, 1), fill 1.5s ease;
+}
+
+.petal-left {
+    transform-origin: -3px 2px;
+    transform: rotate(0deg);
+}
+
+.petal-right {
+    transform-origin: 3px 2px;
+    transform: rotate(0deg);
+}
+
+.petal-center {
+    transform-origin: 0px 5px;
+    transform: scale(1);
+}
+
+.petal-back {
+    transform-origin: 0px 0px;
+    transform: scale(1);
+}
+
+/* Bloom trigger states */
+.flower-container.grow .petal-left {
+    transform: rotate(-25deg) translate(-6px, -3px);
+    transition-delay: 2.8s;
+}
+
+.flower-container.grow .petal-right {
+    transform: rotate(25deg) translate(6px, -3px);
+    transition-delay: 2.8s;
+}
+
+.flower-container.grow .petal-center {
+    transform: scale(1.15) translateY(-4px);
+    transition-delay: 2.9s;
+}
+
+.flower-container.grow .petal-back {
+    transform: scale(1.1) translateY(-2px);
+    transition-delay: 2.7s;
+}
+
+/* Floating animation for the bloomed flower */
+.flower-container.grow .tulip-group {
+    animation: floatFlower 4s ease-in-out infinite 4.2s;
+}
+
+@keyframes floatFlower {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* ==========================================
+   GREETING CARD (GLASSMORPHISM)
+   ========================================== */
+.card-container {
+    position: absolute;
+    bottom: -150px;
+    width: 100%;
+    max-width: 380px;
+    padding: 0 10px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(50px) scale(0.95);
+    z-index: 15;
+    /* Di depan foto polaroid agar teks selalu terbaca */
+    transition: transform 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.2), opacity 1.2s ease;
+}
+
+.card-container.show {
+    bottom: 70px;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+}
+
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 28px;
+    padding: 30px 25px;
+    text-align: center;
+    box-shadow: var(--shadow-medium);
+    border-bottom: 3px solid rgba(255, 77, 109, 0.2);
+}
+
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.card-divider {
+    width: 40px;
+    height: 3px;
+    background-color: var(--primary-color);
+    border-radius: 2px;
+    margin: 0 auto 18px;
+}
+
+.card-message {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-main);
+    font-weight: 400;
+    margin-bottom: 15px;
+}
+
+.card-subtext {
+    font-family: var(--font-handwritten);
+    font-size: 2.2rem;
+    color: var(--primary-dark);
+    margin-bottom: 20px;
+    line-height: 1.1;
+}
+
+/* Buttons */
+.reset-btn {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    border: none;
+    color: white;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 8px 15px rgba(255, 77, 109, 0.3);
+    transition: all 0.3s ease;
+}
+
+.reset-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 20px rgba(255, 77, 109, 0.45);
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+}
+
+.reset-btn:active {
+    transform: translateY(1px);
+}
+
+
+/* ==========================================
+   BUBU & DUDU ILLUSTRATION (COZY CORNER AT TULIP BASE)
+   ========================================== */
+.bubu-dudu-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 180px;
+    height: 130px;
+    /* Diletakkan di sebelah kiri bawah dekat batang tulip */
+    transform: translate(-145px, 25px) scale(0);
+    opacity: 0;
+    z-index: 10;
+    pointer-events: none;
+    transition: transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) 2.2s, opacity 1s ease 2.2s;
+}
+
+.bubu-dudu-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 6px 12px rgba(122, 64, 96, 0.15));
+    animation: floatImg 3s ease-in-out infinite;
+}
+
+@keyframes floatImg {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+.bubu-dudu-container.grow-bubu {
+    transform: translate(-145px, 25px) scale(0.9);
+    opacity: 1;
+}
+
+/* Shift slightly when card is active to frame it perfectly */
+.card-active .bubu-dudu-container {
+    transform: translate(-155px, 10px) scale(0.85);
+    transition: transform 1.2s ease-in-out;
+}
+
+/* Animations for Bubu & Dudu */
+.bubu-arm {
+    transform-origin: 28px 68px;
+    animation: bubuWave 1.8s ease-in-out infinite;
+}
+
+@keyframes bubuWave {
+
+    0%,
+    100% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(-25deg);
+    }
+}
+
+.dudu-bear {
+    animation: duduNod 3.2s ease-in-out infinite;
+}
+
+@keyframes duduNod {
+
+    0%,
+    100% {
+        transform: translate(15px, 15px) translateY(0);
+    }
+
+    50% {
+        transform: translate(15px, 15px) translateY(-3px);
+    }
+}
+
+.bubu-bear {
+    animation: bubuBounce 3.2s ease-in-out infinite 0.5s;
+}
+
+@keyframes bubuBounce {
+
+    0%,
+    100% {
+        transform: translate(85px, 15px) translateY(0);
+    }
+
+    50% {
+        transform: translate(85px, 15px) translateY(-3px);
+    }
+}
+
+.love-heart {
+    transform-origin: 12px 16px;
+    animation: heartBeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartBeat {
+
+    0%,
+    100% {
+        transform: translate(78px, 5px) scale(0.8);
+    }
+
+    50% {
+        transform: translate(78px, 5px) scale(1.05);
+    }
+}
+
+
+/* ==========================================
+   INTERACTIVE POLAROID STACK & SCATTER
+   ========================================== */
+.polaroids-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 10;
+    /* Di belakang z-index 15 (kartu) agar tulisan selalu di depan */
+}
+
+/* Stack is initially centered on the screen */
+.polaroid-stack {
+    position: absolute;
+    left: 50%;
+    top: 42%;
+    width: 140px;
+    height: 175px;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    pointer-events: auto;
+    transition: transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) 2.5s,
+        opacity 1s ease 2.5s,
+        left 1.2s ease-in-out,
+        top 1.2s ease-in-out;
+}
+
+.polaroid-stack.scattered {
+    pointer-events: none;
+    /* Izinkan klik menembus batas kontainer tumpukan yang sempit */
+}
+
+.grow-polaroids .polaroid-stack {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+
+
+.polaroid-card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+    /* Paksa agar kartu selalu bisa mendeteksi klik langsung */
+    background: white;
+    padding: 8px 8px 16px 8px;
+    box-shadow: 0 8px 20px rgba(74, 60, 49, 0.08);
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    transform-origin: center bottom;
+    /* Default stacked coordinates with random offsets */
+    transform: translate(var(--tx), var(--ty)) rotate(var(--rot));
+    z-index: var(--z);
+    transition: transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+        opacity 0.8s ease,
+        left 1.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+        top 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.polaroid-card .polaroid-img-wrapper {
+    width: 100%;
+    height: 124px;
+    overflow: hidden;
+    border-radius: 2px;
+    background: #fdf5f7;
+}
+
+.polaroid-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 20%;
+    /* Mengarahkan fokus kamera ke area wajah (atas) untuk foto vertikal */
+}
+
+.polaroid-card .polaroid-caption {
+    font-family: var(--font-handwritten);
+    font-size: 1.2rem;
+    color: var(--primary-dark);
+    margin-top: 6px;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* ==========================================
+   SCATTERED STATES (FLY OUT TO SIDES)
+   ========================================== */
+/* Left side polaroids */
+.polaroid-stack.scattered .polaroid-card:nth-child(1) {
+    left: -190px;
+    top: -140px;
+    transform: scale(0.95) rotate(-15deg);
+}
+
+.polaroid-stack.scattered .polaroid-card:nth-child(3) {
+    left: -210px;
+    top: -30px;
+    transform: scale(0.95) rotate(10deg);
+}
+
+.polaroid-stack.scattered .polaroid-card:nth-child(5) {
+    left: -195px;
+    top: 80px;
+    transform: scale(0.95) rotate(-8deg);
+}
+
+.polaroid-stack.scattered .polaroid-card:nth-child(7) {
+    left: -180px;
+    top: 190px;
+    transform: scale(0.95) rotate(14deg);
+}
+
+.polaroid-stack.scattered .polaroid-card:nth-child(9) {
+    left: -215px;
+    top: 300px;
+    transform: scale(0.95) rotate(-5deg);
+}
+
+/* Right side polaroids */
+.polaroid-stack.scattered .polaroid-card:nth-child(2) {
+    left: 190px;
+    top: -145px;
+    transform: scale(0.95) rotate(12deg);
+}
+
+.polaroid-stack.scattered .polaroid-card:nth-child(4) {
+    left: 210px;
+    top: -35px;
+    transform: scale(0.95) rotate(-12deg);
+}
+
+.polaroid-stack.scattered .polaroid-card:nth-child(6) {
+    left: 195px;
+    top: 75px;
+    transform: scale(0.95) rotate(8deg);
+}
+
+.polaroid-stack.scattered .polaroid-card:nth-child(8) {
+    left: 180px;
+    top: 185px;
+    transform: scale(0.95) rotate(-15deg);
+}
+
+.polaroid-stack.scattered .polaroid-card:nth-child(10) {
+    left: 215px;
+    top: 295px;
+    transform: scale(0.95) rotate(5deg);
+}
+
+/* Hover effect on scattered photos (Hanya aktif di desktop dengan lebar layar > 768px) */
+@media (min-width: 769px) {
+    .polaroid-stack.scattered .polaroid-card:hover {
+        transform: scale(1.15) rotate(0deg) !important;
+        box-shadow: 0 15px 30px rgba(74, 60, 49, 0.18);
+        z-index: 20 !important;
+        /* Bring to front on hover */
+        transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
+    }
+}
+
+/* Fitur Tap-to-Zoom pada Foto Polaroid (Desktop) */
+.polaroid-card.zoomed {
+    left: 0 !important;
+    top: 0 !important;
+    transform: scale(2.2) rotate(0deg) !important;
+    z-index: 200 !important;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+        left 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+        top 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+        box-shadow 0.6s ease !important;
+}
+
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+@media (max-width: 480px) {
+    .bubu-dudu-container {
+        transform: translate(-100px, 35px) scale(0.6) !important;
+    }
+
+    .bubu-dudu-container.grow-bubu {
+        transform: translate(-100px, 35px) scale(0.65) !important;
+    }
+
+    .card-active .bubu-dudu-container {
+        transform: translate(-105px, 20px) scale(0.58) !important;
+    }
+
+    .polaroid-stack {
+        width: 90px;
+        height: 113px;
+    }
+
+    .polaroid-card {
+        padding: 5px 5px 10px 5px;
+    }
+
+    .polaroid-card .polaroid-img-wrapper {
+        height: 80px;
+    }
+
+    .polaroid-card .polaroid-caption {
+        font-size: 0.95rem;
+        margin-top: 3px;
+    }
+
+    /* Scattered positions on Mobile (smaller offsets to fit screen) */
+    .polaroid-stack.scattered .polaroid-card:nth-child(1) {
+        left: -105px;
+        top: -120px;
+        transform: scale(0.8) rotate(-12deg);
+    }
+
+    .polaroid-stack.scattered .polaroid-card:nth-child(3) {
+        left: -115px;
+        top: -35px;
+        transform: scale(0.8) rotate(8deg);
+    }
+
+    .polaroid-stack.scattered .polaroid-card:nth-child(5) {
+        left: -110px;
+        top: 50px;
+        transform: scale(0.8) rotate(-10deg);
+    }
+
+    .polaroid-stack.scattered .polaroid-card:nth-child(7) {
+        left: -95px;
+        top: 135px;
+        transform: scale(0.8) rotate(12deg);
+    }
+
+    .polaroid-stack.scattered .polaroid-card:nth-child(9) {
+        left: -120px;
+        top: 220px;
+        transform: scale(0.8) rotate(-5deg);
+    }
+
+    .polaroid-stack.scattered .polaroid-card:nth-child(2) {
+        left: 105px;
+        top: -110px;
+        transform: scale(0.8) rotate(14deg);
+    }
+
+    .polaroid-stack.scattered .polaroid-card:nth-child(4) {
+        left: 115px;
+        top: -25px;
+        transform: scale(0.8) rotate(-8deg);
+    }
+
+    .polaroid-stack.scattered .polaroid-card:nth-child(6) {
+        left: 110px;
+        top: 60px;
+        transform: scale(0.8) rotate(10deg);
+    }
+
+    .polaroid-stack.scattered .polaroid-card:nth-child(8) {
+        left: 95px;
+        top: 145px;
+        transform: scale(0.8) rotate(-15deg);
+    }
+
+    .polaroid-stack.scattered .polaroid-card:nth-child(10) {
+        left: 120px;
+        top: 230px;
+        transform: scale(0.8) rotate(5deg);
+    }
+
+    /* Fitur Tap-to-Zoom pada Foto Polaroid (Mobile Override) */
+    .polaroid-card.zoomed {
+        transform: scale(2.8) rotate(0deg) !important;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Card adjustments for mobile screens */
+    .card-container.show {
+        bottom: 55px;
+        /* Dinaikkan sedikit lagi agar melayang aman di atas bar browser HP */
+    }
+
+    .card {
+        padding: 20px 16px;
+        /* Lebih ramping untuk HP */
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        /* Lebih proporsional di HP */
+    }
+
+    .card-message {
+        font-size: 0.88rem;
+        /* Ukuran teks pesan di HP */
+        line-height: 1.5;
+    }
+
+    .card-subtext {
+        font-size: 1.9rem;
+        /* Ukuran teks I love you di HP */
+        margin-bottom: 14px;
+    }
+}
+
+@media (max-height: 700px) {
+    .app-container {
+        justify-content: flex-start;
+        padding-top: 40px;
+    }
+
+    .prompt-text {
+        margin-bottom: 30px;
+        font-size: 1.5rem;
+    }
+
+    .gift-container {
+        margin-bottom: 20px;
+        transform: scale(0.9);
+    }
+
+    .flower-container.grow {
+        transform: translate(-50%, -52%) scale(1);
+    }
+
+    .card-container.show {
+        bottom: 40px;
+    }
+
+    .card {
+        padding: 20px 20px;
+    }
+
+    .card-message {
+        font-size: 0.85rem;
+        margin-bottom: 8px;
+    }
+
+    .card-subtext {
+        font-size: 1.8rem;
+        margin-bottom: 12px;
+    }
+}
+
+/* ==========================================
+   FLOATING MUSIC CONTROL (VINYL DISC)
+   ========================================== */
+.music-control {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 25px rgba(255, 77, 109, 0.15);
+    cursor: pointer;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+}
+
+.music-control:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 30px rgba(255, 77, 109, 0.28);
+}
+
+.music-control:active {
+    transform: scale(0.95);
+}
+
+.vinyl {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.vinyl-svg {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s ease;
+}
+
+/* Rotation when music is playing */
+.music-control.playing .vinyl-svg {
+    animation: spinVinyl 3.5s linear infinite;
+}
+
+@keyframes spinVinyl {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Floating Music Notes */
+.music-notes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.music-notes span {
+    position: absolute;
+    color: var(--primary-color);
+    font-size: 16px;
+    font-weight: bold;
+    opacity: 0;
+    top: 10px;
+    left: 20px;
+}
+
+.music-control.playing .music-notes span:nth-child(1) {
+    animation: floatNoteLeft 2.2s linear infinite;
+    animation-delay: var(--delay);
+}
+
+.music-control.playing .music-notes span:nth-child(2) {
+    animation: floatNoteRight 2.2s linear infinite;
+    animation-delay: var(--delay);
+}
+
+@keyframes floatNoteLeft {
+    0% {
+        transform: translate(0, 0) scale(0.5) rotate(0deg);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(-25px, -45px) scale(1.2) rotate(-25deg);
+        opacity: 0;
+    }
+}
+
+@keyframes floatNoteRight {
+    0% {
+        transform: translate(0, 0) scale(0.5) rotate(0deg);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(20px, -50px) scale(1.2) rotate(25deg);
+        opacity: 0;
+    }
+}
+
+/* ==========================================
+   GENTLE FALLING PETALS (BACKGROUND AMBIENT)
+   ========================================== */
+.falling-petals-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 2;
+    /* Di atas latar belakang dasar, tapi di belakang foto (10) dan kartu (15) */
+    overflow: hidden;
+}
+
+.falling-petal {
+    position: absolute;
+    top: -20px;
+    background: linear-gradient(135deg, #ffb3c1, #ff8fa3);
+    border-radius: 50% 0 50% 50%;
+    opacity: 0.6;
+    pointer-events: none;
+    transform-origin: center;
+    /* Properti durasi dan gerakan diatur dinamis oleh JavaScript */
+    animation: fallAndSway var(--fall-duration) linear forwards;
+}
+
+@keyframes fallAndSway {
+    0% {
+        transform: translateY(0) rotate(0deg) translateX(0);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: var(--max-opacity);
+    }
+
+    90% {
+        opacity: var(--max-opacity);
+    }
+
+    100% {
+        transform: translateY(105vh) rotate(var(--rot-end)) translateX(var(--sway-distance));
+        opacity: 0;
+    }
+}
+
+/* ==========================================
+   INTERACTIVE ENVELOPE BUTTON
+   ========================================== */
+.envelope-wrapper {
+    position: absolute;
+    bottom: -150px;
+    left: 50%;
+    transform: translate(-50%, 50px) scale(0.9);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 14;
+    /* Di belakang kartu ucapan (15) tapi di depan yang lain */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 1s ease;
+}
+
+.envelope-wrapper.show {
+    bottom: 90px;
+    /* Terapung pas di bawah tengah */
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, 0) scale(1);
+}
+
+/* Di HP, sesuaikan tinggi melayang agar pas */
+@media (max-width: 480px) {
+    .envelope-wrapper.show {
+        bottom: 80px;
+    }
+}
+
+.envelope-wrapper.fade-away {
+    opacity: 0;
+    transform: translate(-50%, -30px) scale(0.85);
+    pointer-events: none;
+    transition: transform 0.8s cubic-bezier(0.6, -0.28, 0.735, 0.045), opacity 0.8s ease;
+}
+
+.envelope-btn {
+    width: 80px;
+    height: 56px;
+    position: relative;
+    cursor: pointer;
+    filter: drop-shadow(0 8px 15px rgba(255, 77, 109, 0.25));
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.envelope-btn:hover {
+    transform: scale(1.12);
+}
+
+.envelope-btn:active {
+    transform: scale(0.95);
+}
+
+.envelope-front {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    perspective: 800px;
+}
+
+.envelope-svg {
+    display: block;
+    overflow: visible;
+}
+
+/* Animasi Putar 3D Penutup Amplop */
+.top-flap-svg {
+    transform-origin: 50px 2px;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.envelope-wrapper.open .top-flap-svg {
+    transform: rotateX(180deg) translateY(-2px);
+    fill: #ffd6e0;
+}
+
+/* Segel Hati Berdenyut */
+.heart-seal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -30%) scale(1);
+    font-size: 24px;
+    pointer-events: none;
+    z-index: 5;
+    animation: pulseHeart 1.6s ease-in-out infinite;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.envelope-wrapper.open .heart-seal {
+    opacity: 0;
+    transform: translate(-50%, -30%) scale(2);
+}
+
+@keyframes pulseHeart {
+
+    0%,
+    100% {
+        transform: translate(-50%, -30%) scale(1);
+    }
+
+    50% {
+        transform: translate(-50%, -30%) scale(1.22);
+    }
+}
+
+/* Teks Petunjuk Surat */
+.envelope-hint {
+    margin-top: 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--primary-dark);
+    text-shadow: 0 1px 4px rgba(255, 255, 255, 0.8);
+    animation: hintFloat 2.5s ease-in-out infinite;
+    white-space: nowrap;
+}
+
+@keyframes hintFloat {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
+}

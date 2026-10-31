@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kado Spesial Untukmu 🌷</title>
+    <!-- Import Google Fonts for modern & premium typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Sacramento&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Particle Container for sparkling effects -->
+    <div class="particles-container" id="particlesContainer"></div>
+
+    <!-- Falling Petals Background Container -->
+    <div class="falling-petals-container" id="fallingPetalsContainer"></div>
+
+    <!-- Floating Music Control -->
+    <div class="music-control" id="musicControl">
+        <div class="vinyl" id="vinylDisc">
+            <svg class="vinyl-svg" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="48" fill="#111" stroke="#333" stroke-width="2" />
+                <circle cx="50" cy="50" r="35" fill="none" stroke="#222" stroke-width="1" stroke-dasharray="2 3" />
+                <circle cx="50" cy="50" r="25" fill="none" stroke="#222" stroke-width="1" stroke-dasharray="3 4" />
+                <circle cx="50" cy="50" r="18" fill="#ff758f" />
+                <circle cx="50" cy="50" r="4" fill="#ffe5ec" />
+            </svg>
+        </div>
+        <div class="music-notes" id="musicNotes">
+            <span style="--delay: 0s;">♪</span>
+            <span style="--delay: 1.2s;">♫</span>
+        </div>
+    </div>
+
+    <!-- Background Music Audio -->
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+        <source src="https://assets.mixkit.co/music/preview/mixkit-beautiful-dream-2931.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="app-container">
+        <!-- Prominent Heading -->
+        <h1 class="prompt-text" id="promptText">Ada sesuatu untukmu sayangku... 🎁</h1>
+
+        <!-- Gift Box Area -->
+        <div class="gift-container" id="giftContainer">
+            <div class="gift-box" id="giftBox">
+                <!-- Bow on top -->
+                <div class="bow">
+                    <div class="bow-left"></div>
+                    <div class="bow-right"></div>
+                    <div class="bow-center"></div>
+                </div>
+                <!-- Box Lid -->
+                <div class="lid">
+                    <div class="lid-ribbon"></div>
+                </div>
+                <!-- Box Body -->
+                <div class="box-body">
+                    <div class="box-ribbon-v"></div>
+                    <div class="box-ribbon-h"></div>
+                </div>
+            </div>
+            <!-- Shadow for the box -->
+            <div class="gift-shadow" id="giftShadow"></div>
+        </div>
+
+        <!-- Animated Tulip SVG Container -->
+        <div class="flower-container" id="flowerContainer">
+            <svg class="tulip-svg" viewBox="0 0 200 300" width="200" height="300">
+                <defs>
+                    <linearGradient id="stemGrad" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stop-color="#4caf50" />
+                        <stop offset="100%" stop-color="#2e7d32" />
+                    </linearGradient>
+                    <linearGradient id="leafGrad" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#a3e2a6" />
+                        <stop offset="100%" stop-color="#388e3c" />
+                    </linearGradient>
+                    <linearGradient id="petalGradLeftRight" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#ff758c" />
+                        <stop offset="100%" stop-color="#ff3f6c" />
+                    </linearGradient>
+                    <linearGradient id="petalGradCenter" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#ff9a9e" />
+                        <stop offset="100%" stop-color="#fecfef" />
+                    </linearGradient>
+                    <filter id="softShadow" x="-10%" y="-10%" width="120%" height="120%">
+                        <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#000" flood-opacity="0.1" />
+                    </filter>
+                </defs>
+
+                <g class="tulip-group" filter="url(#softShadow)">
+                    <!-- Stem -->
+                    <path class="stem" id="tulipStem" d="M 100 280 Q 105 200 100 120" fill="none"
+                        stroke="url(#stemGrad)" stroke-width="6" stroke-linecap="round" />
+
+                    <!-- Leaves (will grow from the stem) -->
+                    <path class="leaf leaf-left" d="M 102 220 Q 50 180 80 140 Q 95 180 102 210 Z"
+                        fill="url(#leafGrad)" />
+                    <path class="leaf leaf-right" d="M 101 190 Q 150 150 120 110 Q 105 150 101 180 Z"
+                        fill="url(#leafGrad)" />
+
+                    <!-- Tulip Bud / Petals (translate to stem top: 100, 120) -->
+                    <g class="flower-head" id="flowerHead" transform="translate(100, 120)">
+                        <!-- Back Petal -->
+                        <path class="petal petal-back" d="M 0 0 C -25 -30 -30 -70 0 -90 C 30 -70 25 -30 0 0 Z"
+                            fill="#e03058" />
+                        <!-- Left Petal -->
+                        <path class="petal petal-left" d="M -3 2 C -33 -18 -38 -63 -13 -78 C 7 -58 -3 -18 -3 2 Z"
+                            fill="url(#petalGradLeftRight)" />
+                        <!-- Right Petal -->
+                        <path class="petal petal-right" d="M 3 2 C 33 -18 38 -63 13 -78 C -7 -58 3 -18 3 2 Z"
+                            fill="url(#petalGradLeftRight)" />
+                        <!-- Center Petal -->
+                        <path class="petal petal-center" d="M 0 5 C -20 -20 -20 -75 0 -85 C 20 -75 20 -20 0 5 Z"
+                            fill="url(#petalGradCenter)" />
+                    </g>
+                </g>
+            </svg>
+        </div>
+
+        <!-- Bubu & Dudu Cute Illustration (Left side) -->
+        <div class="bubu-dudu-container" id="bubuDuduContainer">
+            <!-- Jika file bubu-dudu.gif diletakkan di folder proyek, SVG akan disembunyikan dan GIF akan muncul secara otomatis -->
+            <img src="bubu-dudu.gif" class="bubu-dudu-img" id="bubuDuduImg"
+                onload="document.getElementById('bubuDuduSvg').style.display='none'; this.style.display='block';"
+                onerror="this.style.display='none'; document.getElementById('bubuDuduSvg').style.display='block';"
+                alt="Bubu Dudu" style="display: none;">
+            <svg id="bubuDuduSvg" class="bubu-dudu-svg" viewBox="0 0 180 130" width="180" height="130">
+                <defs>
+                    <filter id="cuteshadow" x="-10%" y="-10%" width="120%" height="120%">
+                        <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#4a3c31" flood-opacity="0.1" />
+                    </filter>
+                </defs>
+                <g filter="url(#cuteshadow)">
+                    <!-- Dudu (Brown Bear - Left) -->
+                    <g class="dudu-bear" transform="translate(15, 15)">
+                        <!-- Body -->
+                        <path d="M 15 70 Q 10 95, 40 95 Q 70 95, 65 70 Z" fill="#b08566" />
+                        <!-- Left Foot -->
+                        <circle cx="20" cy="94" r="9" fill="#9e7152" />
+                        <!-- Right Foot -->
+                        <circle cx="60" cy="94" r="9" fill="#9e7152" />
+                        <!-- Left Ear -->
+                        <circle cx="18" cy="24" r="10" fill="#b08566" />
+                        <circle cx="18" cy="24" r="5" fill="#f4ccd3" />
+                        <!-- Right Ear -->
+                        <circle cx="62" cy="24" r="10" fill="#b08566" />
+                        <circle cx="62" cy="24" r="5" fill="#f4ccd3" />
+                        <!-- Head -->
+                        <circle cx="40" cy="45" r="26" fill="#c2997d" />
+                        <!-- Muzzle -->
+                        <ellipse cx="40" cy="51" rx="10" ry="7" fill="#ffffff" />
+                        <!-- Nose -->
+                        <polygon points="38,48 42,48 40,51" fill="#4a3c31" />
+                        <!-- Mouth -->
+                        <path d="M 37 53 Q 40 55, 43 53" fill="none" stroke="#4a3c31" stroke-width="1.5"
+                            stroke-linecap="round" />
+                        <!-- Eyes -->
+                        <circle cx="30" cy="40" r="3.5" fill="#4a3c31" />
+                        <circle cx="50" cy="40" r="3.5" fill="#4a3c31" />
+                        <!-- Blush cheeks -->
+                        <circle cx="23" cy="47" r="4.5" fill="#ffb3c1" opacity="0.6" />
+                        <circle cx="57" cy="47" r="4.5" fill="#ffb3c1" opacity="0.6" />
+                        <!-- Cute little arm holding heart -->
+                        <path d="M 52 68 Q 63 60, 56 55" fill="none" stroke="#b08566" stroke-width="6"
+                            stroke-linecap="round" />
+                    </g>
+
+                    <!-- Bubu (White Bear - Right) -->
+                    <g class="bubu-bear" transform="translate(85, 15)">
+                        <!-- Body -->
+                        <path d="M 15 70 Q 10 95, 40 95 Q 70 95, 65 70 Z" fill="#e8e8e8" />
+                        <!-- Left Foot -->
+                        <circle cx="20" cy="94" r="9" fill="#d6d6d6" />
+                        <!-- Right Foot -->
+                        <circle cx="60" cy="94" r="9" fill="#d6d6d6" />
+                        <!-- Left Ear -->
+                        <circle cx="18" cy="24" r="10" fill="#e8e8e8" />
+                        <circle cx="18" cy="24" r="5" fill="#f4ccd3" />
+                        <!-- Right Ear -->
+                        <circle cx="62" cy="24" r="10" fill="#e8e8e8" />
+                        <circle cx="62" cy="24" r="5" fill="#f4ccd3" />
+                        <!-- Head -->
+                        <circle cx="40" cy="45" r="26" fill="#f5f5f5" />
+                        <!-- Muzzle -->
+                        <ellipse cx="40" cy="51" rx="10" ry="7" fill="#ffffff" />
+                        <!-- Nose -->
+                        <polygon points="38,48 42,48 40,51" fill="#4a3c31" />
+                        <!-- Mouth -->
+                        <path d="M 37 53 Q 40 55, 43 53" fill="none" stroke="#4a3c31" stroke-width="1.5"
+                            stroke-linecap="round" />
+                        <!-- Eyes -->
+                        <circle cx="30" cy="40" r="3.5" fill="#4a3c31" />
+                        <circle cx="50" cy="40" r="3.5" fill="#4a3c31" />
+                        <!-- Blush cheeks -->
+                        <circle cx="23" cy="47" r="4.5" fill="#ffb3c1" opacity="0.75" />
+                        <circle cx="57" cy="47" r="4.5" fill="#ffb3c1" opacity="0.75" />
+                        <!-- Waving Hand -->
+                        <path class="bubu-arm" d="M 28 68 Q 15 55, 22 50" fill="none" stroke="#e8e8e8" stroke-width="6"
+                            stroke-linecap="round" />
+                    </g>
+
+                    <!-- Floating Love Hearts above them -->
+                    <g class="bubu-dudu-hearts">
+                        <path class="love-heart h1"
+                            d="M 12 5 C 10 2, 5 2, 5 7 C 5 11, 12 16, 12 16 C 12 16, 19 11, 19 7 C 19 2, 14 2, 12 5 Z"
+                            fill="#ff4d6d" transform="translate(78, 5) scale(0.8)" />
+                    </g>
+                </g>
+            </svg>
+        </div>
+
+        <!-- Polaroid Photos (Konsep B Modifikasi: Polaroid Stack 10 Foto di sebelah kanan) -->
+        <!-- TIPS: Klik foto teratas untuk membuangnya ke belakang tumpukan secara bergantian! -->
+        <!-- TIPS GANTI GAMBAR: Ganti url src di bawah dengan path foto Anda sendiri -->
+        <div class="polaroids-container" id="polaroidsContainer">
+            <div class="polaroid-stack" id="polaroidStack">
+                <!-- Foto 1 (Teratas) -->
+                <div class="polaroid-card" style="--z: 10;">
+                    <div class="polaroid-img-wrapper">
+                        <img src="WhatsApp%20Image%202026-06-26%20at%2010.19.04.jpeg" alt="Kenangan 1">
+                    </div>
+                    <div class="polaroid-caption">Saat Pertama ✨</div>
+                </div>
+                <!-- Foto 2 -->
+                <div class="polaroid-card" style="--z: 9;">
+                    <div class="polaroid-img-wrapper">
+                        <img src="WhatsApp%20Image%202026-06-26%20at%2010.19.05.jpeg" alt="Kenangan 2">
+                    </div>
+                    <div class="polaroid-caption">Pose Gemas 🥰</div>
+                </div>
+                <!-- Foto 3 -->
+                <div class="polaroid-card" style="--z: 8;">
+                    <div class="polaroid-img-wrapper">
+                        <img src="WhatsApp%20Image%202026-06-26%20at%2010.19.05%20(1).jpeg"
+                            style="object-position: 25% 20%;" alt="Kenangan 3">
+                    </div>
+                    <div class="polaroid-caption">Senyumanmu ❤️</div>
+                </div>
+                <!-- Foto 4 -->
+                <div class="polaroid-card" style="--z: 7;">
+                    <div class="polaroid-img-wrapper">
+                        <img src="WhatsApp%20Image%202026-06-26%20at%2010.19.07.jpeg" alt="Kenangan 4">
+                    </div>
+                    <div class="polaroid-caption">Selamanya ✨</div>
+                </div>
+                <!-- Foto 5 -->
+                <div class="polaroid-card" style="--z: 6;">
+                    <div class="polaroid-img-wrapper">
+                        <img src="WhatsApp%20Image%202026-06-26%20at%2010.19.07%20(1).jpeg"
+                            style="object-position: 25% 20%;" alt="Kenangan 5">
+                    </div>
+                    <div class="polaroid-caption">Hari Indah ☀️</div>
+                </div>
+                <!-- Foto 6 -->
+                <div class="polaroid-card" style="--z: 5;">
+                    <div class="polaroid-img-wrapper">
+                        <img src="WhatsApp%20Image%202026-06-26%20at%2010.19.07%20(2).jpeg" alt="Kenangan 6">
+                    </div>
+                    <div class="polaroid-caption">Tingkah Lucu 😜</div>
+                </div>
+                <!-- Foto 7 -->
+                <div class="polaroid-card" style="--z: 4;">
+                    <div class="polaroid-img-wrapper">
+                        <img src="WhatsApp%20Image%202026-06-26%20at%2020.37.07.jpeg" style="object-position: 20% 20%;"
+                            alt="Kenangan 7">
+                    </div>
+                    <div class="polaroid-caption">Bahagia ❤️</div>
+                </div>
+                <!-- Foto 8 -->
+                <div class="polaroid-card" style="--z: 3;">
+                    <div class="polaroid-img-wrapper">
+                        <img src="WhatsApp%20Image%202026-06-26%20at%2020.37.07%20(1).jpeg"
+                            style="object-position: center 10%;" alt="Kenangan 8">
+                    </div>
+                    <div class="polaroid-caption">Bersamamu 💞</div>
+                </div>
+                <!-- Foto 9 -->
+                <div class="polaroid-card" style="--z: 2;">
+                    <div class="polaroid-img-wrapper">
+                        <img src="WhatsApp%20Image%202026-06-26%20at%2020.37.07%20(2).jpeg" alt="Kenangan 9">
+                    </div>
+                    <div class="polaroid-caption">Momen Hangat 🔥</div>
+                </div>
+                <!-- Foto 10 -->
+                <div class="polaroid-card" style="--z: 1;">
+                    <div class="polaroid-img-wrapper">
+                        <img src="WhatsApp%20Image%202026-06-28%20at%2012.30.41.jpeg"
+                            style="object-position: center 10%;" alt="Kenangan 10">
+                    </div>
+                    <div class="polaroid-caption">Canda Tawa 😄</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Interactive Envelope Area -->
+        <div class="envelope-wrapper" id="envelopeWrapper">
+            <div class="envelope-btn" id="envelopeBtn">
+                <div class="envelope-front">
+                    <svg viewBox="0 0 100 70" width="80" height="56" class="envelope-svg">
+                        <!-- Main envelope body (creamy pink) -->
+                        <rect x="2" y="2" width="96" height="66" rx="8" fill="#fff0f3" stroke="#ffb3c1"
+                            stroke-width="2.5" />
+                        <!-- Bottom flap -->
+                        <polygon points="2,68 50,38 98,68" fill="#ffe5ec" stroke="#ff9fa8" stroke-width="1.5" />
+                        <!-- Left & Right flaps -->
+                        <polygon points="2,2 50,38 2,68" fill="#ffe5ec" opacity="0.9" />
+                        <polygon points="98,2 50,38 98,68" fill="#ffe5ec" opacity="0.9" />
+                        <!-- Top flap (opens via scaleY/rotate) -->
+                        <polygon class="top-flap-svg" id="topFlapSvg" points="2,2 50,38 98,2" fill="#ffd6e0"
+                            stroke="#ff9fa8" stroke-width="1.5" />
+                    </svg>
+                    <!-- Heart Seal -->
+                    <div class="heart-seal" id="heartSeal">❤️</div>
+                </div>
+            </div>
+            <div class="envelope-hint" id="envelopeHint">Ada surat untukmu sayang... ✉️</div>
+        </div>
+
+        <!-- Greeting Card Area -->
+        <div class="card-container" id="cardContainer">
+            <div class="card">
+                <h2 class="card-title">Selamat Ulang Tahun, Icha Sayang! ❤️</h2>
+                <div class="card-divider"></div>
+                <p class="card-message">
+                    Hari ini adalah hari yang sangat spesial karena dunia menjadi lebih indah sejak adanya kamu. Terima
+                    kasih banyak ya sayang, sudah menemani dan mengisi hari-hariku dengan tawa, kasih sayang, dan
+                    kesabaranmu yang luar biasa selama ini. Seperti bunga tulip yang mekar dengan indah, harapanku untuk
+                    kebahagiaanmu dan perjalanan kita akan selalu tumbuh mekar setiap harinya. Aku sangat beruntung
+                    memilikimu.
+                </p>
+                <p class="card-subtext">I love you so much! 🌷✨</p>
+                <button class="reset-btn" id="resetBtn">Lihat Lagi 🎁</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

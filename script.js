@@ -8,6 +8,8 @@ const noBtn = document.getElementById("noBtn");
 const message = document.getElementById("message");
 const continueBtn = document.getElementById("continueBtn");
 const particleContainer = document.getElementById("particle-container");
+const bgMusic = document.getElementById("bgMusic");
+const soundToggle = document.getElementById("soundToggle");
 
 // State
 let yesScale = 1;
@@ -16,6 +18,8 @@ let tries = 0;
 let currentNoX = 0;
 let currentNoY = 0;
 let touchHandled = false;
+let isMuted = localStorage.getItem("dateInvitationMuted") === "true";
+let musicStarted = false;
 
 const texts = [
     "😏 Nice try.",
@@ -26,6 +30,51 @@ const texts = [
     "🥹 Just press YES.",
     "😂 You can't escape forever."
 ];
+
+/* ==========================================
+   Sound Control
+   ========================================== */
+
+function updateSoundUI() {
+    if (!soundToggle || !bgMusic) return;
+    soundToggle.classList.toggle("muted", isMuted);
+    soundToggle.classList.toggle("paused", isMuted);
+    soundToggle.setAttribute("aria-pressed", isMuted ? "false" : "true");
+    soundToggle.setAttribute("title", isMuted ? "Sound: Off" : "Sound: On");
+    bgMusic.muted = isMuted;
+    if (!isMuted && musicStarted) {
+        bgMusic.play().catch(() => {});
+    }
+}
+
+function startMusic() {
+    if (!bgMusic || musicStarted) return;
+    musicStarted = true;
+    updateSoundUI();
+}
+
+if (soundToggle) {
+    soundToggle.addEventListener("click", () => {
+        isMuted = !isMuted;
+        localStorage.setItem("dateInvitationMuted", isMuted);
+        updateSoundUI();
+    });
+}
+
+function initMusicOnInteraction() {
+    if (musicStarted) return;
+    const startOnce = () => {
+        startMusic();
+        document.removeEventListener("click", startOnce);
+        document.removeEventListener("keydown", startOnce);
+        document.removeEventListener("pointerdown", startOnce);
+    };
+    document.addEventListener("click", startOnce);
+    document.addEventListener("keydown", startOnce);
+    document.addEventListener("pointerdown", startOnce);
+}
+
+initMusicOnInteraction();
 
 /* ==========================================
    Dodge Logic (NO Button - Desktop & Mobile)
@@ -244,6 +293,34 @@ function navigateToPage(targetPageId) {
     if (targetPageId === "page-success") {
         hideHomePage();
         showSuccessPage();
+    } else if (targetPageId === "page-coupons") {
+        hideHomePage();
+        hideSuccessPage();
+        showCouponsPage();
+    }
+}
+
+/* ==========================================
+   Page Visibility Helpers
+   ========================================== */
+
+function hideSuccessPage() {
+    const successPage = document.getElementById("page-success");
+    if (successPage) {
+        successPage.classList.remove("active", "fade-in-anim");
+        successPage.style.display = "none";
+    }
+}
+
+function showCouponsPage() {
+    const couponsPage = document.getElementById("page-coupons");
+    if (couponsPage) {
+        couponsPage.style.display = "flex";
+        couponsPage.classList.add("active", "fade-in-anim");
+
+        setTimeout(() => {
+            couponsPage.classList.remove("fade-in-anim");
+        }, 500);
     }
 }
 
@@ -292,16 +369,61 @@ if (yesBtn) {
 if (continueBtn) {
     continueBtn.addEventListener("click", () => {
         playButtonAnimation(continueBtn);
-        // Restart the game
-        setTimeout(() => {
-            resetGame();
-        }, 250);
+        navigateToPage("page-coupons");
     });
 
     continueBtn.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
             continueBtn.click();
+        }
+    });
+}
+
+/* ==========================================
+   Coupon Claim Logic
+   ========================================== */
+
+const couponBtns = document.querySelectorAll(".coupon-btn");
+
+couponBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+        const couponId = btn.getAttribute("data-coupon");
+        const couponCard = document.getElementById(`coupon-${couponId}`);
+
+        if (btn.classList.contains("claimed")) return;
+
+        btn.classList.add("claimed");
+        btn.textContent = "Claimed ✓";
+        btn.disabled = true;
+
+        if (couponCard) {
+            couponCard.classList.add("redeemed");
+        }
+
+        // Play claim sound effect via visual feedback
+        playButtonAnimation(btn);
+    });
+});
+
+/* ==========================================
+   Back from Coupons
+   ========================================== */
+
+const backFromCouponsBtn = document.getElementById("backFromCouponsBtn");
+
+if (backFromCouponsBtn) {
+    backFromCouponsBtn.addEventListener("click", () => {
+        playButtonAnimation(backFromCouponsBtn);
+        setTimeout(() => {
+            resetGame();
+        }, 250);
+    });
+
+    backFromCouponsBtn.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            backFromCouponsBtn.click();
         }
     });
 }
@@ -334,8 +456,19 @@ function resetGame() {
     const successPage = document.getElementById("page-success");
     const homePage = document.getElementById("page-home");
     const homeCard = homePage ? homePage.querySelector(".card") : null;
+    const couponsPage = document.getElementById("page-coupons");
     
+    // Hide all non-home pages first
     if (successPage) {
+        successPage.classList.remove("active", "fade-in-anim", "fade-out-anim");
+        successPage.style.display = "none";
+    }
+    if (couponsPage) {
+        couponsPage.classList.remove("active", "fade-in-anim", "fade-out-anim");
+        couponsPage.style.display = "none";
+    }
+    
+    if (successPage || couponsPage) {
         successPage.classList.add("fade-out-anim");
         setTimeout(() => {
             successPage.classList.remove("active", "fade-out-anim");
