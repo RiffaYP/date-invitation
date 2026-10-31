@@ -77,17 +77,8 @@ function moveButton(isTouch = false) {
     }
 
     if (isTouch) {
-        // Mobile: 1. Shake, 2. Text updates, 3. YES scales, 4. Move after shake finishes
-        isShaking = true;
-        noBtn.style.setProperty("--no-x", `${currentNoX}px`);
-        noBtn.style.setProperty("--no-y", `${currentNoY}px`);
-        noBtn.classList.add("shake-anim");
-
-        setTimeout(() => {
-            noBtn.classList.remove("shake-anim");
-            applyRandomPosition();
-            isShaking = false;
-        }, 300);
+        // Mobile: move immediately, no shake
+        applyRandomPosition();
     } else {
         // Desktop: Instant smooth dodge
         applyRandomPosition();
