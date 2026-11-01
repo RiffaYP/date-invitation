@@ -381,10 +381,149 @@ if (continueBtn) {
 }
 
 /* ==========================================
+   Coupon Detail Data & Modal Logic
+   ========================================== */
+
+const couponDetails = {
+    1: {
+        title: "Free Hug 🤗",
+        type: "image",
+        src: "bubu_dudu_hug.gif",
+        alt: "Bubu & Dudu pelukan",
+        message: "Satu pelukan hangat dari Bubu & Dudu buat kamu, kapan saja kamu butuhkan."
+    },
+    2: {
+        title: "Dinner Date 🍽️",
+        type: "places",
+        message: "Pilih restoran untuk makan malam bareng:",
+        places: [
+            { name: "Restoran Italia", query: "restoran italia terdekat" },
+            { name: "Restoran Jepang", query: "restoran jepang terdekat" },
+            { name: "Restoran Indonesia", query: "restoran indonesia terdekat" },
+            { name: "Seafood", query: "restoran seafood terdekat" }
+        ]
+    },
+    3: {
+        title: "Cinema Date 🎬",
+        type: "places",
+        message: "Pilih bioskop untuk nonton bareng:",
+        places: [
+            { name: "Bioskop XXI", query: "bioskop xxi terdekat" },
+            { name: "Bioskop CGV", query: "bioskop cgv terdekat" },
+            { name: "Bioskop Blitzmegaplex", query: "bioskop blitzmegaplex terdekat" },
+            { name: "Bioskop Cinépolis", query: "bioskop cinépolis terdekat" }
+        ]
+    },
+    4: {
+        title: "Coffee Date ☕",
+        type: "places",
+        message: "Pilih kafe untuk ngopi bareng:",
+        places: [
+            { name: "Starbucks", query: "starbucks terdekat" },
+            { name: "Kopi Kenangan", query: "kopi kenangan terdekat" },
+            { name: "Janji Jiwa", query: "janji jiwa terdekat" },
+            { name: "Kafe Lokal", query: "kafe kopi lokal terdekat" }
+        ]
+    },
+    5: {
+        title: "Walk Date 🌳",
+        type: "places",
+        message: "Pilih tempat jalan-jalan bareng:",
+        places: [
+            { name: "Taman Kota", query: "taman kota terdekat" },
+            { name: "Pantai", query: "pantai terdekat" },
+            { name: "Tebing", query: "tebing jalan-jalan terdekat" },
+            { name: "Taman Bunga", query: "taman bunga terdekat" }
+        ]
+    },
+    6: {
+        title: "Game Date 🎮",
+        type: "places",
+        message: "Pilih tempat main game bareng:",
+        places: [
+            { name: "Game Arcade", query: "game arcade terdekat" },
+            { name: "Game Cafe", query: "game cafe terdekat" },
+            { name: "Bowling", query: "bowling terdekat" },
+            { name: "Billiar", query: "biliar terdekat" }
+        ]
+    }
+};
+
+/* ==========================================
    Coupon Claim Logic
    ========================================== */
 
 const couponBtns = document.querySelectorAll(".coupon-btn");
+const couponModal = document.getElementById("couponModal");
+const modalBackdrop = document.getElementById("modalBackdrop");
+const modalClose = document.getElementById("modalClose");
+const modalTitle = document.getElementById("modalTitle");
+const modalBody = document.getElementById("modalBody");
+const modalActions = document.getElementById("modalActions");
+
+function openCouponModal(couponId) {
+    const detail = couponDetails[couponId];
+    if (!detail) return;
+
+    modalTitle.textContent = detail.title;
+    modalBody.innerHTML = "";
+    modalActions.innerHTML = "";
+
+    // Message
+    if (detail.message) {
+        const msg = document.createElement("p");
+        msg.textContent = detail.message;
+        msg.style.marginBottom = "16px";
+        msg.style.color = "#884e6b";
+        msg.style.fontSize = "13px";
+        modalBody.appendChild(msg);
+    }
+
+    if (detail.type === "image") {
+        const img = document.createElement("img");
+        img.src = detail.src;
+        img.alt = detail.alt;
+        img.className = "gif-hug";
+        modalBody.appendChild(img);
+    }
+
+    if (detail.type === "places") {
+        const placeList = document.createElement("div");
+        placeList.className = "place-list";
+
+        detail.places.forEach((place) => {
+            const placeBtn = document.createElement("button");
+            placeBtn.className = "place-btn";
+            placeBtn.innerHTML = `
+                <div class="place-name">${place.name}</div>
+                <div class="place-desc">Buka di Google Maps →</div>
+            `;
+            placeBtn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.query)}`;
+                window.open(mapsUrl, "_blank");
+            });
+            placeList.appendChild(placeBtn);
+        });
+
+        modalBody.appendChild(placeList);
+    }
+
+    // Close button
+    const closeBtn = document.createElement("button");
+    closeBtn.className = "secondary";
+    closeBtn.textContent = "Tutup";
+    closeBtn.addEventListener("click", closeCouponModal);
+    modalActions.appendChild(closeBtn);
+
+    couponModal.classList.add("open");
+    couponModal.setAttribute("aria-hidden", "false");
+}
+
+function closeCouponModal() {
+    couponModal.classList.remove("open");
+    couponModal.setAttribute("aria-hidden", "true");
+}
 
 couponBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -401,9 +540,30 @@ couponBtns.forEach((btn) => {
             couponCard.classList.add("redeemed");
         }
 
-        // Play claim sound effect via visual feedback
         playButtonAnimation(btn);
+
+        // Open detail modal after claim
+        setTimeout(() => {
+            openCouponModal(couponId);
+        }, 300);
     });
+});
+
+// Close modal on backdrop click
+if (modalBackdrop) {
+    modalBackdrop.addEventListener("click", closeCouponModal);
+}
+
+// Close modal on close button click
+if (modalClose) {
+    modalClose.addEventListener("click", closeCouponModal);
+}
+
+// Close modal on Escape key
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && couponModal && couponModal.classList.contains("open")) {
+        closeCouponModal();
+    }
 });
 
 /* ==========================================
